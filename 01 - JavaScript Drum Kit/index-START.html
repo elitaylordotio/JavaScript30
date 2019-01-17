@@ -58,7 +58,32 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+  function playWav(keyCode){
+    let wav = document.querySelector(`audio[data-key="${keyCode}"]`);
 
+    // This bit was completely new audio sets the play time so without this it plays
+    // to the end of the wav and so it sounds like it misses button clicks to audio
+    wav.currentTime = 0;
+    wav.play();
+  }
+
+  function addCss(keyCode){
+    let button = document.querySelector(`.key[data-key="${keyCode}"]`);
+    button.addEventListener('transitionend', removeCss);
+    button.classList.add('playing');
+  }
+
+  function removeCss(event){
+    let button = event.target;
+    button.classList.remove('playing');
+  }
+
+  function pressButton(event){
+    addCss(event.keyCode);
+    playWav(event.keyCode);
+  }
+
+  window.addEventListener('keydown', pressButton);
 </script>
 
 
